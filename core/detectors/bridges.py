@@ -1,6 +1,6 @@
-from collections import defaultdict
 from itertools import combinations
 
+from core.corpus import count_fields_and_pairs
 from core.schema import Candidate, Paper
 
 
@@ -28,13 +28,7 @@ def detect_bridges(papers: list[Paper]) -> list[Candidate]:
     if n_total == 0:
         return []
 
-    field_counts = defaultdict(int)
-    pair_counts = defaultdict(int)
-    for paper in papers:
-        for f in paper.fields:
-            field_counts[f] += 1
-        for a, b in combinations(sorted(paper.fields), 2):
-            pair_counts[(a, b)] += 1
+    field_counts, pair_counts = count_fields_and_pairs(papers)
 
     candidates = []
     for a, b in combinations(sorted(field_counts), 2):

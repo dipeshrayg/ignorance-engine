@@ -15,6 +15,14 @@ def detect_bridges(papers: list[Paper]) -> list[Candidate]:
 
     High density = two well-studied fields nobody has connected — the
     signature of a genuinely unasked question, not just a small field.
+
+    ponytail: this scores every field pair by size and absence alone, so a
+    real question (materials_science x pharmacology) and a nonsense pair
+    (linguistics x materials_science) can score similarly — co-occurrence
+    absence doesn't imply plausibility. Upgrade path: filter candidates by
+    a relevance signal (embedding similarity once real abstracts exist) or
+    let the bandit narrow the search space instead of scoring every C(n,2)
+    pair uniformly.
     """
     n_total = len(papers)
     if n_total == 0:

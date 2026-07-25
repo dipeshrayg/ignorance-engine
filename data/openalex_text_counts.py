@@ -1,14 +1,9 @@
 import json
-import time
-import urllib.parse
-import urllib.request
 from itertools import combinations
 from pathlib import Path
 
-from core.refuter import abstract_cooccurrence
-from data.openalex_ingest import MAILTO
+from data.openalex_client import cooccurrence, work_count
 
-API = "https://api.openalex.org/works"
 CACHE_PATH = Path(__file__).parent / "real_text_stats.json"
 
 # One representative search term per field. Deliberately simple single
@@ -28,13 +23,6 @@ FIELD_TERMS = {
 }
 
 
-def _work_count(filter_value: str) -> int:
-    params = {"filter": filter_value, "per-page": "1", "mailto": MAILTO}
-    url = f"{API}?{urllib.parse.urlencode(params)}"
-    with urllib.request.urlopen(url, timeout=30) as resp:
-        return json.load(resp)["meta"]["count"]
-
-
 def fetch_text_stats(field_terms: dict[str, str] = FIELD_TERMS) -> tuple[dict[str, int], dict[tuple[str, str], int], int]:
     """Same (field_counts, pair_counts, n_total) shape as
     data/openalex_counts.py, but counted by literal abstract-text mention
@@ -51,21 +39,19 @@ def fetch_text_stats(field_terms: dict[str, str] = FIELD_TERMS) -> tuple[dict[st
     an abstract at all -- using the full corpus as N would understate
     every expected_ab.
     """
-    n_total = _work_count("has_abstract:true")
+    n_total = work_count("has_abstract:true")
     print(f"  corpus with abstracts: {n_total:,}")
 
     field_counts = {}
     for key, term in field_terms.items():
-        field_counts[key] = _work_count(f"abstract.search:{term}")
+        field_counts[key] = work_count(f"abstract.search:{term}")
         print(f"  {key} ('{term}'): {field_counts[key]:,}")
-        time.sleep(0.15)
 
     pair_counts = {}
     for (a_key, a_term), (b_key, b_term) in combinations(sorted(field_terms.items()), 2):
-        n_ab = abstract_cooccurrence(a_term, b_term, MAILTO)
+        n_ab = cooccurrence(a_term, b_term)
         pair_counts[(a_key, b_key)] = n_ab
         print(f"  {a_key} x {b_key}: {n_ab:,}")
-        time.sleep(0.15)
 
     return field_counts, pair_counts, n_total
 

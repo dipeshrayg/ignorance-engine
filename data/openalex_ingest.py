@@ -1,13 +1,9 @@
 import json
-import time
-import urllib.parse
-import urllib.request
 from pathlib import Path
 
 from core.schema import Paper
+from data.openalex_client import works_search
 
-API = "https://api.openalex.org/works"
-MAILTO = "ray-d@ulster.ac.uk"  # OpenAlex "polite pool": faster, more reliable responses
 SCORE_THRESHOLD = 0.3          # keep only meaningfully-tagged concepts, drop near-zero noise tags
 PER_FIELD = 200                # papers pulled per field, ranked by citation count
 
@@ -23,19 +19,6 @@ FIELDS = {
 }
 
 CACHE_PATH = Path(__file__).parent / "real_papers.json"
-
-
-def _fetch_field(concept_id: str) -> list[dict]:
-    params = {
-        "filter": f"concepts.id:{concept_id}",
-        "sort": "cited_by_count:desc",
-        "per-page": str(PER_FIELD),
-        "select": "id,title,publication_year,concepts",
-        "mailto": MAILTO,
-    }
-    url = f"{API}?{urllib.parse.urlencode(params)}"
-    with urllib.request.urlopen(url, timeout=30) as resp:
-        return json.load(resp)["results"]
 
 
 def ingest() -> list[Paper]:
@@ -54,7 +37,9 @@ def ingest() -> list[Paper]:
 
     for key, concept_id in FIELDS.items():
         print(f"  fetching {key}...")
-        for work in _fetch_field(concept_id):
+        result = works_search(f"concepts.id:{concept_id}", per_page=PER_FIELD,
+                               select="id,title,publication_year,concepts")
+        for work in result["results"]:
             matched = frozenset(
                 concept_url_to_key[c["id"]]
                 for c in work["concepts"]
@@ -67,7 +52,6 @@ def ingest() -> list[Paper]:
                 papers[wid] = Paper(wid, papers[wid].title, papers[wid].year, papers[wid].fields | matched)
             else:
                 papers[wid] = Paper(wid, work["title"] or "(untitled)", work["publication_year"] or 0, matched)
-        time.sleep(0.2)  # stay polite even in the mailto pool
 
     return list(papers.values())
 

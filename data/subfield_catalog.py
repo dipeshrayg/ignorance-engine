@@ -1,12 +1,8 @@
 import json
-import time
-import urllib.parse
-import urllib.request
 from pathlib import Path
 
-from data.openalex_ingest import MAILTO
+from data.openalex_client import subfields_list
 
-API = "https://api.openalex.org/subfields"
 CACHE_PATH = Path(__file__).parent / "subfields.json"
 
 
@@ -20,16 +16,11 @@ def fetch_subfields() -> list[dict]:
     results = []
     page = 1
     while True:
-        params = {"per-page": "200", "page": str(page),
-                   "select": "id,display_name,field,domain,works_count", "mailto": MAILTO}
-        url = f"{API}?{urllib.parse.urlencode(params)}"
-        with urllib.request.urlopen(url, timeout=30) as resp:
-            data = json.load(resp)
+        data = subfields_list(per_page=200, page=page, select="id,display_name,field,domain,works_count")
         results.extend(data["results"])
         if len(results) >= data["meta"]["count"]:
             break
         page += 1
-        time.sleep(0.15)
     return [{
         "id": r["id"].rsplit("/", 1)[-1],
         "name": r["display_name"],

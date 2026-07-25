@@ -1,12 +1,10 @@
 import json
-import time
-import urllib.parse
-import urllib.request
 from pathlib import Path
 
 from core.bandit import UCB1
-from data.openalex_counts import _work_count, load_or_fetch_real_stats
-from data.openalex_ingest import FIELDS, MAILTO
+from data.openalex_client import concepts_search, work_count
+from data.openalex_counts import load_or_fetch_real_stats
+from data.openalex_ingest import FIELDS
 
 LEVEL0 = {
     "art": "C142362112", "biology": "C86803240", "business": "C144133560",
@@ -23,16 +21,9 @@ CACHE_PATH = Path(__file__).parent / "bandit_run.json"
 
 def child_concepts(parent_id: str, level: int = 2, limit: int = 5) -> list[tuple[str, str, int]]:
     """(concept_id, display_name, works_count) for a parent's children at `level`, biggest first."""
-    params = {
-        "filter": f"ancestors.id:{parent_id},level:{level}",
-        "sort": "works_count:desc",
-        "per-page": str(limit),
-        "select": "id,display_name,works_count",
-        "mailto": MAILTO,
-    }
-    url = f"https://api.openalex.org/concepts?{urllib.parse.urlencode(params)}"
-    with urllib.request.urlopen(url, timeout=30) as resp:
-        return [(r["id"].rsplit("/", 1)[-1], r["display_name"], r["works_count"]) for r in json.load(resp)["results"]]
+    data = concepts_search(f"ancestors.id:{parent_id},level:{level}", per_page=limit,
+                            select="id,display_name,works_count", sort="works_count:desc")
+    return [(r["id"].rsplit("/", 1)[-1], r["display_name"], r["works_count"]) for r in data["results"]]
 
 
 def explore():
@@ -54,19 +45,18 @@ def explore():
         arm = bandit.select()
         concept_id = LEVEL0[arm]
         print(f"exploring '{arm}'...")
-        n_new = _work_count(f"concepts.id:{concept_id}")
+        n_new = work_count(f"concepts.id:{concept_id}")
         field_counts[arm] = n_new
 
         best_density = 0.0
         for existing_key, existing_id in list(active_ids.items()):
             a, b = sorted((arm, existing_key))
-            n_ab = _work_count(f"concepts.id:{concept_id},concepts.id:{existing_id}")
+            n_ab = work_count(f"concepts.id:{concept_id},concepts.id:{existing_id}")
             pair_counts[(a, b)] = n_ab
             expected_ab = field_counts[a] * field_counts[b] / n_total
             if expected_ab > 0:
                 density = max(expected_ab - n_ab, 0) / expected_ab * 1000
                 best_density = max(best_density, density)
-            time.sleep(0.15)
 
         bandit.update(arm, best_density)
         active_ids[arm] = concept_id

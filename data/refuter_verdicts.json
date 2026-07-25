@@ -1,0 +1,54 @@
+{
+  "method": "Manual adversarial refutation, session 2026-07-25. Each candidate gets 1-3 targeted web searches attempting to find existing interdisciplinary work connecting the two fields. survived=false means prior art was found — the candidate is refuted, not a genuinely unasked question. This is the honest, non-automated version of upgrade (3) from the project pitch; see core/refuter.py for the upgrade path to an API-driven panel.",
+  "verdicts": [
+    {
+      "field_a": "climatology",
+      "field_b": "pharmacology",
+      "detector_score": 994.44,
+      "n_ab_global": 67,
+      "survived": false,
+      "reasoning": "\"Green and sustainable pharmacology\" is a named interdisciplinary paradigm (Frontiers scoping review 2025) covering environmental impact of drug discovery/manufacturing, plus \"ecopharmacovigilance\" as an established subfield.",
+      "sources": [
+        "https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2025.1697581/full",
+        "https://www.researchgate.net/publication/397760917_Green_and_sustainable_pharmacology_Integrating_environmental_responsibility_into_drug_discovery_development_and_practice"
+      ]
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "robotics",
+      "detector_score": 990.21,
+      "n_ab_global": 5,
+      "survived": false,
+      "reasoning": "Dedicated 2025 arXiv roadmap for climate-relevant robotics research (energy, built environment, land use, Earth sciences), plus an active \"ecorobotics\"/environmental intelligence field with an Annual Reviews article.",
+      "sources": [
+        "https://arxiv.org/abs/2507.11623",
+        "https://www.annualreviews.org/content/journals/10.1146/annurev-control-030123-014212"
+      ]
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "robotics",
+      "detector_score": 989.91,
+      "n_ab_global": 30,
+      "survived": false,
+      "reasoning": "\"Immuno-inspired robotics\" is an established subfield with review articles dating back to 2012 (arXiv), covering artificial-immune-system algorithms for robot navigation and multi-robot control, plus physical micro-robots built to probe immune cell function (U Chicago).",
+      "sources": [
+        "https://arxiv.org/pdf/1202.4261",
+        "https://pme.uchicago.edu/news/spinning-magnetic-micro-robots-help-researchers-probe-immune-cell-recognition"
+      ]
+    },
+    {
+      "field_a": "pharmacology",
+      "field_b": "robotics",
+      "detector_score": 983.14,
+      "n_ab_global": 28,
+      "survived": false,
+      "reasoning": "Mature, well-established connection: pharmacology cited as \"one of the ten most frequently occurring disciplines in robotics research\"; extensive literature on robotic drug discovery, dispensing, and pharmaceutical manufacturing automation.",
+      "sources": [
+        "https://www.sciencedirect.com/science/article/pii/S2949866X25000097",
+        "https://www.mdpi.com/2504-2289/7/3/147"
+      ]
+    }
+  ],
+  "finding": "0/4 top real-data candidates survived refutation, at both the broad-level top-cited-sample scoring AND the corrected true-global-count scoring. This held even after fixing the sampling-bias bug (see git history), which rules out 'bad sample' as the explanation. The actual explanation: all 8 fields pulled for this run are broad, well-known top-level disciplines (materials science, pharmacology, immunology, robotics, climatology, linguistics, neuroscience, sociology). Any real emerging connection between two famous fields gets noticed and named quickly by the field itself (see the sources above: 'ecorobotics', 'green pharmacology', 'immuno-inspired robotics' are all named subfields with their own review articles). Broad discipline pairs are therefore a poor hunting ground for genuinely unasked questions BY CONSTRUCTION -- the interesting search space is finer-grained, specific sub-concepts, where the combinatorial space is too large for any human to have manually scanned. This is the actual argument for why the bandit (self-directed attention over a large concept pool) matters -- not a nice-to-have, but the mechanism that makes the coarse-search failure mode above avoidable."
+}

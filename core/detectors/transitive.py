@@ -1,11 +1,10 @@
 from collections import defaultdict
 from itertools import combinations
 
-from core.corpus import count_fields_and_pairs
-from core.schema import Candidate, Paper
+from core.schema import Candidate
 
 
-def detect_transitive_links(papers: list[Paper]) -> list[Candidate]:
+def detect_transitive_links(field_counts: dict[str, int], pair_counts: dict[tuple[str, str], int]) -> list[Candidate]:
     """Swanson-style ABC linkage: A and C both connect to B, but never to each other.
 
     Classic literature-based discovery (Swanson 1986): if A relates to B and
@@ -14,12 +13,14 @@ def detect_transitive_links(papers: list[Paper]) -> list[Candidate]:
     the two legs (A-B, B-C) — the bottleneck strength of the implied
     connection.
 
+    Takes corpus stats directly — see detect_bridges for why (sample-based
+    counts undercount real interdisciplinary connections; prefer true
+    global counts when available).
+
     ponytail: "connects" means >=1 shared paper. Fine at this corpus size;
     a real corpus needs a minimum-strength threshold or single coincidental
     co-authorships will flood this with noise.
     """
-    field_counts, pair_counts = count_fields_and_pairs(papers)
-
     def weight(a: str, b: str) -> int:
         return pair_counts.get(tuple(sorted((a, b))), 0)
 

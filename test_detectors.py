@@ -1,15 +1,23 @@
+from core.corpus import count_fields_and_pairs
 from core.detectors.bridges import detect_bridges
 from core.detectors.transitive import detect_transitive_links
 from core.ranking import rank
 from data.sample_papers import SAMPLE_PAPERS
 
+FIELD_COUNTS, PAIR_COUNTS = count_fields_and_pairs(SAMPLE_PAPERS)
+N_TOTAL = len(SAMPLE_PAPERS)
+
 
 def test_bridges():
-    candidates = rank(detect_bridges(SAMPLE_PAPERS))
+    candidates = rank(detect_bridges(FIELD_COUNTS, PAIR_COUNTS, N_TOTAL))
 
-    top = candidates[0]
-    assert {top.field_a, top.field_b} == {"materials_science", "pharmacology"}, \
-        f"expected the materials_science x pharmacology gap on top, got {top}"
+    # relative-deficit scoring ties every zero-observed pair at the max score
+    # (each is "100% of expected connections missing") — materials_science x
+    # pharmacology must be among that top tier, not necessarily uniquely first.
+    top_score = candidates[0].score
+    tied_for_top = {frozenset((c.field_a, c.field_b)) for c in candidates if c.score == top_score}
+    assert frozenset({"materials_science", "pharmacology"}) in tied_for_top, \
+        f"expected the materials_science x pharmacology gap tied for top, got {candidates[0]}"
 
     connected = next(c for c in candidates if {c.field_a, c.field_b} == {"materials_science", "robotics"})
     assert connected.score == 0, "fields already well-connected should not be flagged as ignored"
@@ -18,7 +26,7 @@ def test_bridges():
 
 
 def test_transitive():
-    candidates = detect_transitive_links(SAMPLE_PAPERS)
+    candidates = detect_transitive_links(FIELD_COUNTS, PAIR_COUNTS)
 
     assert len(candidates) == 1, f"expected exactly one ABC candidate in the sample corpus, got {candidates}"
     link = candidates[0]
@@ -29,7 +37,7 @@ def test_transitive():
 
 
 def test_merged_ranking():
-    merged = rank(detect_bridges(SAMPLE_PAPERS) + detect_transitive_links(SAMPLE_PAPERS))
+    merged = rank(detect_bridges(FIELD_COUNTS, PAIR_COUNTS, N_TOTAL) + detect_transitive_links(FIELD_COUNTS, PAIR_COUNTS))
 
     top_two_detectors = {c.detector for c in merged[:2]}
     assert "transitive" in top_two_detectors, (

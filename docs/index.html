@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ignorance Engine — Registry</title>
+<style>
+  :root { color-scheme: light dark; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    max-width: 860px; margin: 0 auto; padding: 32px 20px 80px;
+    color: light-dark(#0b0b0b, #ffffff); background: light-dark(#f9f9f7, #0d0d0d);
+    line-height: 1.6;
+  }
+  h1 { font-size: 24px; margin-bottom: 4px; }
+  .subtitle { color: light-dark(#52514e, #c3c2b7); font-size: 14px; margin-bottom: 28px; max-width: 640px; }
+  .stat-row { display: flex; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat {
+    background: light-dark(#fcfcfb, #1a1a19); border: 1px solid light-dark(rgba(11,11,11,.1), rgba(255,255,255,.1));
+    border-radius: 10px; padding: 14px 18px; min-width: 120px;
+  }
+  .stat .n { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat .label { font-size: 12px; color: light-dark(#52514e, #c3c2b7); }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid light-dark(#e1e0d9, #2c2c2a); font-size: 14px; }
+  th { color: light-dark(#52514e, #c3c2b7); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 3px 8px; border-radius: 20px; }
+  .status.refuted { background: light-dark(#fbe4e4, #3a1f1f); color: light-dark(#a92a2a, #e66767); }
+  .status.untested { background: light-dark(#eeede8, #26261f); color: light-dark(#52514e, #c3c2b7); }
+  .sources { font-size: 12px; margin-top: 2px; }
+  .sources a { color: inherit; }
+  section { margin-bottom: 36px; }
+  h2 { font-size: 16px; border-bottom: 1px solid light-dark(#e1e0d9, #2c2c2a); padding-bottom: 6px; }
+  footer { font-size: 12px; color: light-dark(#898781, #898781); margin-top: 40px; }
+  a { color: light-dark(#2a78d6, #5598e7); }
+  code { background: light-dark(#eeede8, #26261f); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>Ignorance Engine</h1>
+  <p class="subtitle">
+    Finds pairs of scientific fields that are far less connected in the real literature than
+    their individual size predicts — candidate "unasked questions." Every candidate below is
+    checked with live search against real published work before being trusted; the status
+    column shows what survived.
+  </p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">8</div><div class="label">fields covered</div></div>
+    <div class="stat"><div class="n">28</div><div class="label">pairs scored</div></div>
+    <div class="stat"><div class="n">5</div><div class="label">refuted on real search</div></div>
+    <div class="stat"><div class="n">0</div><div class="label">survived refutation</div></div>
+  </div>
+
+  <section>
+    <h2>Ranked candidates</h2>
+    <table>
+      <tr><th>Field A</th><th>Field B</th><th class="num">Density</th><th class="num">Real papers</th><th>Status</th></tr>
+      <tr>
+  <td>linguistics</td><td>pharmacology</td><td class="num">900.8</td><td class="num">93</td>
+  <td>
+    <span class="status refuted">refuted</span>
+    <div class="sources"><a href="https://arxiv.org/pdf/2208.10228">source</a> · <a href="https://pharmrev.aspetjournals.org/article/S0031-6997(24)00776-2/abstract">source</a></div>
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>pharmacology</td><td class="num">840.3</td><td class="num">1,690</td>
+  <td>
+    <span class="status refuted">refuted</span>
+    <div class="sources"><a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2025.1697581/full">source</a> · <a href="https://www.researchgate.net/publication/397760917_Green_and_sustainable_pharmacology_Integrating_environmental_responsibility_into_drug_discovery_development_and_practice">source</a></div>
+  </td>
+</tr>
+<tr>
+  <td>pharmacology</td><td>robotics</td><td class="num">768.7</td><td class="num">1,131</td>
+  <td>
+    <span class="status refuted">refuted</span>
+    <div class="sources"><a href="https://www.sciencedirect.com/science/article/pii/S2949866X25000097">source</a> · <a href="https://www.mdpi.com/2504-2289/7/3/147">source</a></div>
+  </td>
+</tr>
+<tr>
+  <td>pharmacology</td><td>sociology</td><td class="num">716.4</td><td class="num">613</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>linguistics</td><td class="num">649.0</td><td class="num">729</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>robotics</td><td class="num">648.9</td><td class="num">166</td>
+  <td>
+    <span class="status refuted">refuted</span>
+    <div class="sources"><a href="https://arxiv.org/pdf/1202.4261">source</a> · <a href="https://pme.uchicago.edu/news/spinning-magnetic-micro-robots-help-researchers-probe-immune-cell-recognition">source</a></div>
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>linguistics</td><td class="num">614.0</td><td class="num">35</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>robotics</td><td>sociology</td><td class="num">577.3</td><td class="num">935</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>robotics</td><td class="num">562.4</td><td class="num">4,739</td>
+  <td>
+    <span class="status refuted">refuted</span>
+    <div class="sources"><a href="https://arxiv.org/abs/2507.11623">source</a> · <a href="https://www.annualreviews.org/content/journals/10.1146/annurev-control-030123-014212">source</a></div>
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>immunology</td><td class="num">503.4</td><td class="num">508</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>neuroscience</td><td class="num">474.8</td><td class="num">1,008</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>linguistics</td><td>robotics</td><td class="num">469.7</td><td class="num">509</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>sociology</td><td class="num">143.3</td><td class="num">179</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>neuroscience</td><td>sociology</td><td class="num">0.0</td><td class="num">2,085</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>neuroscience</td><td>robotics</td><td class="num">0.0</td><td class="num">3,299</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>neuroscience</td><td>pharmacology</td><td class="num">0.0</td><td class="num">5,090</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>materials science</td><td>sociology</td><td class="num">0.0</td><td class="num">7,569</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>materials science</td><td>robotics</td><td class="num">0.0</td><td class="num">5,547</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>materials science</td><td>pharmacology</td><td class="num">0.0</td><td class="num">5,570</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>materials science</td><td>neuroscience</td><td class="num">0.0</td><td class="num">2,638</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>linguistics</td><td>sociology</td><td class="num">0.0</td><td class="num">6,268</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>linguistics</td><td>neuroscience</td><td class="num">0.0</td><td class="num">2,026</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>linguistics</td><td>materials science</td><td class="num">0.0</td><td class="num">2,462</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>pharmacology</td><td class="num">0.0</td><td class="num">3,633</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>neuroscience</td><td class="num">0.0</td><td class="num">1,113</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>immunology</td><td>materials science</td><td class="num">0.0</td><td class="num">1,434</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>sociology</td><td class="num">0.0</td><td class="num">6,919</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+<tr>
+  <td>climatology</td><td>materials science</td><td class="num">0.0</td><td class="num">11,254</td>
+  <td>
+    <span class="status untested">untested</span>
+    
+  </td>
+</tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Method</h2>
+    <p>
+      Density = how much of the expected co-occurring literature (under a size-based independence
+      assumption) is missing, scaled 0&ndash;1000. Field size and co-occurrence are counted by literal
+      abstract-text mention across OpenAlex's 172.5M-work abstracted corpus &mdash; not by its
+      concept/topic classifier tags, which were found during this project to systematically miss real
+      connections (see <a href="https://github.com/dipeshrayg/ignorance-engine/blob/master/data/refuter_verdicts.json">refuter_verdicts.json</a>).
+      Every candidate that reaches this registry gets checked with live web search before being trusted;
+      "refuted" means real prior work was found connecting the two fields, sources linked below the row.
+    </p>
+    <p>
+      Honest current result: 5 candidates tested across broad disciplines, fine-grained topics,
+      and this corrected count &mdash; 0 survived. That null result is itself the finding so far:
+      it demonstrates naive interdisciplinary-gap detection needs real adversarial verification before
+      any candidate can be trusted, not that the method doesn't work.
+    </p>
+  </section>
+
+  <footer>
+    Generated from real OpenAlex data, 2026-07-26. Source: <a href="https://github.com/dipeshrayg/ignorance-engine">https://github.com/dipeshrayg/ignorance-engine</a>
+  </footer>
+</body>
+</html>

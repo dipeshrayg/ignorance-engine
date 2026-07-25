@@ -48,7 +48,56 @@
         "https://www.sciencedirect.com/science/article/pii/S2949866X25000097",
         "https://www.mdpi.com/2504-2289/7/3/147"
       ]
+    },
+    {
+      "field_a": "linguistics",
+      "field_b": "pharmacology",
+      "detector_score": 900.84,
+      "n_ab_global": 93,
+      "survived": false,
+      "reasoning": "\"Natural Language Processing in Pharmacology\" is an established field with its own review article in Pharmacological Reviews, covering drug-drug interaction extraction, psychoactive-drug-effect language analysis, and pharmaceutical-literature text mining.",
+      "sources": [
+        "https://arxiv.org/pdf/2208.10228",
+        "https://pharmrev.aspetjournals.org/article/S0031-6997(24)00776-2/abstract"
+      ],
+      "note": "First candidate tested against the corrected abstract-text signal (not concept/topic tags) -- still refuted."
+    },
+    {
+      "field_a": "pharmacology:depression",
+      "field_b": "robotics",
+      "detector_score": 1000.0,
+      "n_ab_global": 0,
+      "survived": false,
+      "reasoning": "Socially assistive robots for depression/mental health, robotic transcranial magnetic stimulation for depression treatment, and robotic-assisted gait therapy effects on depression symptoms are all active, published research threads -- just not co-tagged under both concept IDs, which is why tag-based counting showed zero.",
+      "sources": [
+        "https://www.nature.com/articles/s41598-023-41044-1",
+        "https://scazlab.yale.edu/sites/default/files/files/IntegratingSociallyAssistiveRobotics.pdf"
+      ],
+      "note": "Fine-grained topic-level test (OpenAlex topic 'Treatment of Major Depression' vs the robotics concept). Demonstrates concept/topic tag co-occurrence undercounts real connections."
+    },
+    {
+      "field_a": "pharmacology:organic_synthesis",
+      "field_b": "robotics",
+      "detector_score": 1000.0,
+      "n_ab_global": 0,
+      "survived": false,
+      "reasoning": "\"Self-driving labs\" and AI-driven robotic chemists for autonomous organic synthesis are an active, named research area with multiple Nature-family papers -- again a tagging gap, not a real absence.",
+      "sources": [
+        "https://www.nature.com/articles/s41586-024-08173-7",
+        "https://www.nature.com/articles/s44160-022-00231-0"
+      ],
+      "note": "Same tagging-undercount pattern as the depression case above; together these motivated switching the whole pipeline to abstract-text counting."
     }
   ],
-  "finding": "0/4 top real-data candidates survived refutation, at both the broad-level top-cited-sample scoring AND the corrected true-global-count scoring. This held even after fixing the sampling-bias bug (see git history), which rules out 'bad sample' as the explanation. The actual explanation: all 8 fields pulled for this run are broad, well-known top-level disciplines (materials science, pharmacology, immunology, robotics, climatology, linguistics, neuroscience, sociology). Any real emerging connection between two famous fields gets noticed and named quickly by the field itself (see the sources above: 'ecorobotics', 'green pharmacology', 'immuno-inspired robotics' are all named subfields with their own review articles). Broad discipline pairs are therefore a poor hunting ground for genuinely unasked questions BY CONSTRUCTION -- the interesting search space is finer-grained, specific sub-concepts, where the combinatorial space is too large for any human to have manually scanned. This is the actual argument for why the bandit (self-directed attention over a large concept pool) matters -- not a nice-to-have, but the mechanism that makes the coarse-search failure mode above avoidable."
+  "noise_findings": [
+    {
+      "field_a": "pharmacology:apelin",
+      "field_b": "robotics",
+      "detector_score": 961.85,
+      "n_ab_global": 1,
+      "verdict": "not a real candidate -- false signal, not refuted prior art",
+      "reasoning": "The single co-occurring paper (OpenAlex W2753513162) is an unrelated ophthalmology-journal editorial summarizing many unrelated studies; it mentions both words in passing while describing different papers, not a paper about apelin and robotics together. Read via abstract_inverted_index before trusting the count. Lesson: any candidate with very low n_ab needs the actual connecting paper(s) read, not just counted -- sparse co-occurrence can itself be noise."
+    }
+  ],
+  "finding": "0/8 real candidates survived refutation across four distinct methodological attempts this session: (1) broad disciplines from a citation-sampled corpus, (2) broad disciplines from true global tag-based counts, (3) fine-grained pharmacology topics vs. robotics via tags, (4) broad disciplines via corrected abstract-text counts. Pattern: for any two moderately-broad, well-known academic fields, if a productive combination exists, someone has usually already published a review naming it -- academia actively hunts for and names interdisciplinary connections between recognizable fields (see sources above: 'ecorobotics', 'green pharmacology', 'immuno-inspired robotics', 'NLP in pharmacology' are all named subfields with their own reviews). This is not a bug fixable by better counting -- discipline-level and topic-level search keeps rediscovering gaps that already got filled. The genuinely unexplored territory, if it exists, requires finer granularity than anything tried here (OpenAlex has 252 subfields and 4,516 topics -- ~10.2M possible topic-level pairs), which is the actual argument for why the bandit matters: it's the only way to search that space without brute-forcing millions of API calls."
 }

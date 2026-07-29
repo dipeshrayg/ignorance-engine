@@ -30,8 +30,15 @@ def pick_cross_domain_pool(n_per_domain: int = TOP_N_PER_DOMAIN) -> dict[str, st
     for domain, items in by_domain.items():
         items.sort(key=lambda s: s["works_count"], reverse=True)
         for s in items[:n_per_domain]:
-            key = s["name"].lower().replace(" ", "_").replace("-", "_")
-            pool[key] = s["name"].lower()
+            # OpenAlex's filter DSL treats "," as the top-level clause
+            # separator even inside a single abstract.search value (verified
+            # live: "Ecology, Evolution, Behavior and Systematics" 400s,
+            # because the server splits on every comma regardless of where
+            # it appears) -- strip commas before using a subfield's often
+            # compound name as a search term.
+            clean_name = s["name"].replace(",", "")
+            key = clean_name.lower().replace(" ", "_").replace("-", "_")
+            pool[key] = clean_name.lower()
     return pool
 
 

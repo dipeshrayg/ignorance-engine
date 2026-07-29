@@ -1,0 +1,201 @@
+{
+  "freeze_year": 2015,
+  "results": [
+    {
+      "field_a": "linguistics",
+      "field_b": "pharmacology",
+      "frozen_density": 896.5,
+      "frozen_n_ab": 34,
+      "new_papers_since": 59
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "pharmacology",
+      "frozen_density": 865.4,
+      "frozen_n_ab": 364,
+      "new_papers_since": 1297
+    },
+    {
+      "field_a": "pharmacology",
+      "field_b": "robotics",
+      "frozen_density": 807.1,
+      "frozen_n_ab": 284,
+      "new_papers_since": 805
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "robotics",
+      "frozen_density": 732.3,
+      "frozen_n_ab": 560,
+      "new_papers_since": 4181
+    },
+    {
+      "field_a": "robotics",
+      "field_b": "sociology",
+      "frozen_density": 660.9,
+      "frozen_n_ab": 241,
+      "new_papers_since": 685
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "linguistics",
+      "frozen_density": 642.3,
+      "frozen_n_ab": 167,
+      "new_papers_since": 565
+    },
+    {
+      "field_a": "pharmacology",
+      "field_b": "sociology",
+      "frozen_density": 626.6,
+      "frozen_n_ab": 343,
+      "new_papers_since": 262
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "linguistics",
+      "frozen_density": 593.7,
+      "frozen_n_ab": 14,
+      "new_papers_since": 22
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "robotics",
+      "frozen_density": 527.1,
+      "frozen_n_ab": 73,
+      "new_papers_since": 84
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "neuroscience",
+      "frozen_density": 510.6,
+      "frozen_n_ab": 180,
+      "new_papers_since": 807
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "immunology",
+      "frozen_density": 453.1,
+      "frozen_n_ab": 155,
+      "new_papers_since": 331
+    },
+    {
+      "field_a": "linguistics",
+      "field_b": "robotics",
+      "frozen_density": 213.4,
+      "frozen_n_ab": 200,
+      "new_papers_since": 307
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "sociology",
+      "frozen_density": 190.1,
+      "frozen_n_ab": 78,
+      "new_papers_since": 94
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "materials_science",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 2677,
+      "new_papers_since": 8463
+    },
+    {
+      "field_a": "climatology",
+      "field_b": "sociology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 2053,
+      "new_papers_since": 4827
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "materials_science",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 476,
+      "new_papers_since": 818
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "neuroscience",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 374,
+      "new_papers_since": 717
+    },
+    {
+      "field_a": "immunology",
+      "field_b": "pharmacology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 1610,
+      "new_papers_since": 1828
+    },
+    {
+      "field_a": "linguistics",
+      "field_b": "materials_science",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 722,
+      "new_papers_since": 1735
+    },
+    {
+      "field_a": "linguistics",
+      "field_b": "neuroscience",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 691,
+      "new_papers_since": 1324
+    },
+    {
+      "field_a": "linguistics",
+      "field_b": "sociology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 2661,
+      "new_papers_since": 3597
+    },
+    {
+      "field_a": "materials_science",
+      "field_b": "neuroscience",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 741,
+      "new_papers_since": 1757
+    },
+    {
+      "field_a": "materials_science",
+      "field_b": "pharmacology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 1318,
+      "new_papers_since": 3819
+    },
+    {
+      "field_a": "materials_science",
+      "field_b": "robotics",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 1285,
+      "new_papers_since": 4186
+    },
+    {
+      "field_a": "materials_science",
+      "field_b": "sociology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 2724,
+      "new_papers_since": 4805
+    },
+    {
+      "field_a": "neuroscience",
+      "field_b": "pharmacology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 1895,
+      "new_papers_since": 2970
+    },
+    {
+      "field_a": "neuroscience",
+      "field_b": "robotics",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 988,
+      "new_papers_since": 2277
+    },
+    {
+      "field_a": "neuroscience",
+      "field_b": "sociology",
+      "frozen_density": 0.0,
+      "frozen_n_ab": 567,
+      "new_papers_since": 1482
+    }
+  ]
+}

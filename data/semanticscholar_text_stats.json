@@ -1,0 +1,43 @@
+{
+  "field_counts": {
+    "materials_science": 88174,
+    "pharmacology": 887930,
+    "immunology": 101536,
+    "robotics": 936582,
+    "climatology": 1628442,
+    "linguistics": 152089,
+    "neuroscience": 148327,
+    "sociology": 374911
+  },
+  "pair_counts": {
+    "climatology|immunology": 281,
+    "climatology|linguistics": 465,
+    "climatology|materials_science": 684,
+    "climatology|neuroscience": 515,
+    "climatology|pharmacology": 1200,
+    "climatology|robotics": 2873,
+    "climatology|sociology": 4780,
+    "immunology|linguistics": 21,
+    "immunology|materials_science": 174,
+    "immunology|neuroscience": 931,
+    "immunology|pharmacology": 2698,
+    "immunology|robotics": 131,
+    "immunology|sociology": 121,
+    "linguistics|materials_science": 30,
+    "linguistics|neuroscience": 1339,
+    "linguistics|pharmacology": 70,
+    "linguistics|robotics": 483,
+    "linguistics|sociology": 4172,
+    "materials_science|neuroscience": 206,
+    "materials_science|pharmacology": 505,
+    "materials_science|robotics": 1073,
+    "materials_science|sociology": 64,
+    "neuroscience|pharmacology": 4602,
+    "neuroscience|robotics": 2775,
+    "neuroscience|sociology": 1351,
+    "pharmacology|robotics": 787,
+    "pharmacology|sociology": 510,
+    "robotics|sociology": 716
+  },
+  "n_total": 236855828
+}

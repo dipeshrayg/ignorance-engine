@@ -30,8 +30,12 @@ def frozen_stats(before_year: int, field_terms: dict[str, str] = FIELD_TERMS):
 
 
 def growth_since(term_a: str, term_b: str, since_year: int) -> int:
-    """Real new papers connecting two fields, published since `since_year`."""
-    return work_count(f"abstract.search:{term_a},abstract.search:{term_b},publication_year:>={since_year}")
+    """Real new papers connecting two fields, published since `since_year`
+    (inclusive). OpenAlex's publication_year filter only supports strict
+    `>`/`<`, not `>=`/`<=` (confirmed live: `>=` returns a 400) -- so
+    "since Y inclusive" is expressed as `>Y-1`.
+    """
+    return work_count(f"abstract.search:{term_a},abstract.search:{term_b},publication_year:>{since_year - 1}")
 
 
 def run_benchmark(freeze_year: int = 2015, field_terms: dict[str, str] = FIELD_TERMS):
@@ -67,7 +71,7 @@ def verify_syntax() -> bool:
     as expected before spending the full ~65-call budget on a real run.
     """
     total = work_count("publication_year:<2015")
-    since = work_count("publication_year:>=2015")
+    since = work_count("publication_year:>2014")
     all_time = work_count("")
     print(f"before 2015: {total:,}  |  since 2015: {since:,}  |  all time: {all_time:,}")
     ok = abs((total + since) - all_time) / all_time < 0.02

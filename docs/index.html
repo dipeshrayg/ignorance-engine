@@ -3,280 +3,158 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ignorance Engine — Registry</title>
+<title>Ignorance Engine</title>
 <style>
   :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    max-width: 860px; margin: 0 auto; padding: 32px 20px 80px;
-    color: light-dark(#0b0b0b, #ffffff); background: light-dark(#f9f9f7, #0d0d0d);
-    line-height: 1.6;
+    margin: 0; color: light-dark(#0b0b0b, #ffffff); background: light-dark(#f9f9f7, #0d0d0d);
+    line-height: 1.5; min-height: 100vh;
   }
-  h1 { font-size: 24px; margin-bottom: 4px; }
-  .subtitle { color: light-dark(#52514e, #c3c2b7); font-size: 14px; margin-bottom: 28px; max-width: 640px; }
-  .stat-row { display: flex; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
-  .stat {
-    background: light-dark(#fcfcfb, #1a1a19); border: 1px solid light-dark(rgba(11,11,11,.1), rgba(255,255,255,.1));
-    border-radius: 10px; padding: 14px 18px; min-width: 120px;
+  a { color: light-dark(#2a78d6, #5598e7); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ---- hero / search ---- */
+  .hero {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 14vh 20px 40px; text-align: center; transition: padding 0.15s;
   }
-  .stat .n { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .stat .label { font-size: 12px; color: light-dark(#52514e, #c3c2b7); }
-  table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid light-dark(#e1e0d9, #2c2c2a); font-size: 14px; }
-  th { color: light-dark(#52514e, #c3c2b7); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
-  td.num { text-align: right; font-variant-numeric: tabular-nums; }
-  .status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 3px 8px; border-radius: 20px; }
-  .status.refuted { background: light-dark(#fbe4e4, #3a1f1f); color: light-dark(#a92a2a, #e66767); }
-  .status.untested { background: light-dark(#eeede8, #26261f); color: light-dark(#52514e, #c3c2b7); }
-  .sources { font-size: 12px; margin-top: 2px; }
-  .sources a { color: inherit; }
-  section { margin-bottom: 36px; }
-  h2 { font-size: 16px; border-bottom: 1px solid light-dark(#e1e0d9, #2c2c2a); padding-bottom: 6px; }
-  footer { font-size: 12px; color: light-dark(#898781, #898781); margin-top: 40px; }
-  a { color: light-dark(#2a78d6, #5598e7); }
-  code { background: light-dark(#eeede8, #26261f); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  .hero.compact { padding: 28px 20px 20px; }
+  .logo { font-size: 52px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .logo .accent { color: light-dark(#2a78d6, #5598e7); }
+  .tagline { color: light-dark(#52514e, #c3c2b7); font-size: 15px; margin: 0 0 28px; }
+  .search-box {
+    width: 100%; max-width: 600px; display: flex; align-items: center; gap: 10px;
+    background: light-dark(#fcfcfb, #1a1a19); border: 1px solid light-dark(rgba(11,11,11,.14), rgba(255,255,255,.14));
+    border-radius: 26px; padding: 12px 20px; box-shadow: 0 1px 4px light-dark(rgba(11,11,11,.06), rgba(0,0,0,.3));
+  }
+  .search-box:focus-within { border-color: light-dark(#2a78d6, #5598e7); box-shadow: 0 1px 8px light-dark(rgba(42,120,214,.2), rgba(85,152,229,.25)); }
+  .search-box svg { flex: none; opacity: 0.5; }
+  .search-box input {
+    flex: 1; border: none; outline: none; background: transparent; font-size: 16px;
+    color: light-dark(#0b0b0b, #ffffff); font-family: inherit;
+  }
+  .btn-row { display: flex; gap: 12px; margin-top: 22px; }
+  .btn {
+    font-family: inherit; font-size: 13px; padding: 9px 18px; border-radius: 6px; border: none; cursor: pointer;
+    background: light-dark(#eeede8, #26261f); color: light-dark(#3c3b38, #e3e2dc);
+  }
+  .btn:hover { background: light-dark(#e1e0d9, #2f2f28); }
+  .stats-line { font-size: 12px; color: light-dark(#898781, #898781); margin-top: 24px; }
+
+  /* ---- results ---- */
+  main { max-width: 680px; margin: 0 auto; padding: 4px 20px 80px; }
+  .result-count { font-size: 13px; color: light-dark(#898781, #898781); margin: 10px 0 20px; }
+  .result { margin-bottom: 26px; }
+  .result .breadcrumb { font-size: 13px; color: light-dark(#4d7c2f, #7cb85f); margin-bottom: 2px; }
+  .result .breadcrumb .sep { color: light-dark(#898781, #898781); margin: 0 4px; }
+  .result h3 { margin: 0 0 4px; font-size: 19px; font-weight: 400; }
+  .result h3 a { color: light-dark(#1a0dab, #8ab4f8); }
+  .result .snippet { font-size: 14px; color: light-dark(#3c3b38, #c3c2b7); margin: 0 0 6px; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 9px; border-radius: 20px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; }
+  .badge.refuted { background: light-dark(#fbe4e4, #3a1f1f); color: light-dark(#a92a2a, #e66767); }
+  .badge.untested { background: light-dark(#eeede8, #26261f); color: light-dark(#52514e, #c3c2b7); }
+  .badge.survived { background: light-dark(#dff3df, #123a12); color: light-dark(#0ca30c, #4ad24a); }
+  .sources { font-size: 12px; margin-top: 4px; }
+  .empty-state { text-align: center; color: light-dark(#898781, #898781); padding: 60px 20px; font-size: 14px; }
+
+  footer { max-width: 680px; margin: 40px auto 0; padding: 20px 20px 40px; font-size: 12px; color: light-dark(#898781, #898781); border-top: 1px solid light-dark(#e1e0d9, #2c2c2a); }
+  footer p { max-width: 640px; }
+  code { background: light-dark(#eeede8, #26261f); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
 </style>
 </head>
 <body>
-  <h1>Ignorance Engine</h1>
-  <p class="subtitle">
-    Finds pairs of scientific fields that are far less connected in the real literature than
-    their individual size predicts — candidate "unasked questions." Every candidate below is
-    checked with live search against real published work before being trusted; the status
-    column shows what survived.
-  </p>
-
-  <div class="stat-row">
-    <div class="stat"><div class="n">8</div><div class="label">fields covered</div></div>
-    <div class="stat"><div class="n">28</div><div class="label">pairs scored</div></div>
-    <div class="stat"><div class="n">5</div><div class="label">refuted on real search</div></div>
-    <div class="stat"><div class="n">0</div><div class="label">survived refutation</div></div>
+  <div class="hero" id="hero">
+    <div class="logo">Ignorance<span class="accent">Engine</span></div>
+    <p class="tagline">a search engine for questions science hasn't asked yet</p>
+    <div class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="try a field name — robotics, pharmacology, climate..." autocomplete="off">
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="ask">Question Me</button>
+      <button class="btn" id="surprise">Surprise Me</button>
+    </div>
+    <div class="stats-line">28 candidate questions indexed · 8 fields · 5 refuted on live search · 0 survived</div>
   </div>
 
-  <section>
-    <h2>Ranked candidates</h2>
-    <table>
-      <tr><th>Field A</th><th>Field B</th><th class="num">Density</th><th class="num">Real papers</th><th>Status</th></tr>
-      <tr>
-  <td>linguistics</td><td>pharmacology</td><td class="num">900.8</td><td class="num">93</td>
-  <td>
-    <span class="status refuted">refuted</span>
-    <div class="sources"><a href="https://arxiv.org/pdf/2208.10228">source</a> · <a href="https://pharmrev.aspetjournals.org/article/S0031-6997(24)00776-2/abstract">source</a></div>
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>pharmacology</td><td class="num">840.3</td><td class="num">1,690</td>
-  <td>
-    <span class="status refuted">refuted</span>
-    <div class="sources"><a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2025.1697581/full">source</a> · <a href="https://www.researchgate.net/publication/397760917_Green_and_sustainable_pharmacology_Integrating_environmental_responsibility_into_drug_discovery_development_and_practice">source</a></div>
-  </td>
-</tr>
-<tr>
-  <td>pharmacology</td><td>robotics</td><td class="num">768.7</td><td class="num">1,131</td>
-  <td>
-    <span class="status refuted">refuted</span>
-    <div class="sources"><a href="https://www.sciencedirect.com/science/article/pii/S2949866X25000097">source</a> · <a href="https://www.mdpi.com/2504-2289/7/3/147">source</a></div>
-  </td>
-</tr>
-<tr>
-  <td>pharmacology</td><td>sociology</td><td class="num">716.4</td><td class="num">613</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>linguistics</td><td class="num">649.0</td><td class="num">729</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>robotics</td><td class="num">648.9</td><td class="num">166</td>
-  <td>
-    <span class="status refuted">refuted</span>
-    <div class="sources"><a href="https://arxiv.org/pdf/1202.4261">source</a> · <a href="https://pme.uchicago.edu/news/spinning-magnetic-micro-robots-help-researchers-probe-immune-cell-recognition">source</a></div>
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>linguistics</td><td class="num">614.0</td><td class="num">35</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>robotics</td><td>sociology</td><td class="num">577.3</td><td class="num">935</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>robotics</td><td class="num">562.4</td><td class="num">4,739</td>
-  <td>
-    <span class="status refuted">refuted</span>
-    <div class="sources"><a href="https://arxiv.org/abs/2507.11623">source</a> · <a href="https://www.annualreviews.org/content/journals/10.1146/annurev-control-030123-014212">source</a></div>
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>immunology</td><td class="num">503.4</td><td class="num">508</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>neuroscience</td><td class="num">474.8</td><td class="num">1,008</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>linguistics</td><td>robotics</td><td class="num">469.7</td><td class="num">509</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>sociology</td><td class="num">143.3</td><td class="num">179</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>neuroscience</td><td>sociology</td><td class="num">0.0</td><td class="num">2,085</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>neuroscience</td><td>robotics</td><td class="num">0.0</td><td class="num">3,299</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>neuroscience</td><td>pharmacology</td><td class="num">0.0</td><td class="num">5,090</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>materials science</td><td>sociology</td><td class="num">0.0</td><td class="num">7,569</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>materials science</td><td>robotics</td><td class="num">0.0</td><td class="num">5,547</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>materials science</td><td>pharmacology</td><td class="num">0.0</td><td class="num">5,570</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>materials science</td><td>neuroscience</td><td class="num">0.0</td><td class="num">2,638</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>linguistics</td><td>sociology</td><td class="num">0.0</td><td class="num">6,268</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>linguistics</td><td>neuroscience</td><td class="num">0.0</td><td class="num">2,026</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>linguistics</td><td>materials science</td><td class="num">0.0</td><td class="num">2,462</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>pharmacology</td><td class="num">0.0</td><td class="num">3,633</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>neuroscience</td><td class="num">0.0</td><td class="num">1,113</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>immunology</td><td>materials science</td><td class="num">0.0</td><td class="num">1,434</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>sociology</td><td class="num">0.0</td><td class="num">6,919</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-<tr>
-  <td>climatology</td><td>materials science</td><td class="num">0.0</td><td class="num">11,254</td>
-  <td>
-    <span class="status untested">untested</span>
-    
-  </td>
-</tr>
-    </table>
-  </section>
-
-  <section>
-    <h2>Method</h2>
-    <p>
-      Density = how much of the expected co-occurring literature (under a size-based independence
-      assumption) is missing, scaled 0&ndash;1000. Field size and co-occurrence are counted by literal
-      abstract-text mention across OpenAlex's 172.5M-work abstracted corpus &mdash; not by its
-      concept/topic classifier tags, which were found during this project to systematically miss real
-      connections (see <a href="https://github.com/dipeshrayg/ignorance-engine/blob/master/data/refuter_verdicts.json">refuter_verdicts.json</a>).
-      Every candidate that reaches this registry gets checked with live web search before being trusted;
-      "refuted" means real prior work was found connecting the two fields, sources linked below the row.
-    </p>
-    <p>
-      Honest current result: 5 candidates tested across broad disciplines, fine-grained topics,
-      and this corrected count &mdash; 0 survived. That null result is itself the finding so far:
-      it demonstrates naive interdisciplinary-gap detection needs real adversarial verification before
-      any candidate can be trusted, not that the method doesn't work.
-    </p>
-  </section>
+  <main>
+    <div class="result-count" id="count"></div>
+    <div id="results"></div>
+    <div class="empty-state" id="empty" style="display:none">no fields match that search</div>
+  </main>
 
   <footer>
-    Generated from real OpenAlex data, 2026-07-26. Source: <a href="https://github.com/dipeshrayg/ignorance-engine">https://github.com/dipeshrayg/ignorance-engine</a>
+    <p>
+      Density = how much of the expected co-occurring literature (under a size-based independence
+      assumption) is missing, scaled 0&ndash;1000, counted by literal abstract-text mention across
+      OpenAlex's 172.5M-work abstracted corpus. Every candidate is checked with live search before
+      being trusted — "refuted" means real prior work was found; see
+      <a href="https://github.com/dipeshrayg/ignorance-engine/blob/master/data/refuter_verdicts.json">refuter_verdicts.json</a> for sources,
+      and <a href="https://github.com/dipeshrayg/ignorance-engine/blob/master/paper/ignorance_engine.md">the paper</a> for full methodology.
+    </p>
+    <p>Generated from real data, 2026-08-01. Source: <a href="https://github.com/dipeshrayg/ignorance-engine">https://github.com/dipeshrayg/ignorance-engine</a></p>
   </footer>
+
+<script>
+const QUESTIONS = [{"a": "linguistics", "b": "pharmacology", "pool": "discipline", "detector": "bridges", "density": 900.8, "n_ab": 93, "expected": 937.89, "status": "refuted", "reasoning": "\"Natural Language Processing in Pharmacology\" is an established field with its own review article in Pharmacological Reviews, covering drug-drug interaction extraction, psychoactive-drug-effect language analysis, and pharmaceutical-literature text mining.", "sources": ["https://arxiv.org/pdf/2208.10228", "https://pharmrev.aspetjournals.org/article/S0031-6997(24)00776-2/abstract"]}, {"a": "climatology", "b": "pharmacology", "pool": "discipline", "detector": "bridges", "density": 840.3, "n_ab": 1690, "expected": 10581.89, "status": "refuted", "reasoning": "\"Green and sustainable pharmacology\" is a named interdisciplinary paradigm (Frontiers scoping review 2025) covering environmental impact of drug discovery/manufacturing, plus \"ecopharmacovigilance\" as an established subfield.", "sources": ["https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2025.1697581/full", "https://www.researchgate.net/publication/397760917_Green_and_sustainable_pharmacology_Integrating_environmental_responsibility_into_drug_discovery_development_and_practice"]}, {"a": "pharmacology", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 768.7, "n_ab": 1131, "expected": 4890.51, "status": "refuted", "reasoning": "Mature, well-established connection: pharmacology cited as \"one of the ten most frequently occurring disciplines in robotics research\"; extensive literature on robotic drug discovery, dispensing, and pharmaceutical manufacturing automation.", "sources": ["https://www.sciencedirect.com/science/article/pii/S2949866X25000097", "https://www.mdpi.com/2504-2289/7/3/147"]}, {"a": "pharmacology", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 716.4, "n_ab": 613, "expected": 2161.39, "status": "untested", "reasoning": null, "sources": []}, {"a": "climatology", "b": "linguistics", "pool": "discipline", "detector": "bridges", "density": 649.0, "n_ab": 729, "expected": 2076.84, "status": "untested", "reasoning": null, "sources": []}, {"a": "immunology", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 648.9, "n_ab": 166, "expected": 472.75, "status": "refuted", "reasoning": "\"Immuno-inspired robotics\" is an established subfield with review articles dating back to 2012 (arXiv), covering artificial-immune-system algorithms for robot navigation and multi-robot control, plus physical micro-robots built to probe immune cell function (U Chicago).", "sources": ["https://arxiv.org/pdf/1202.4261", "https://pme.uchicago.edu/news/spinning-magnetic-micro-robots-help-researchers-probe-immune-cell-recognition"]}, {"a": "immunology", "b": "linguistics", "pool": "discipline", "detector": "bridges", "density": 614.0, "n_ab": 35, "expected": 90.66, "status": "untested", "reasoning": null, "sources": []}, {"a": "robotics", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 577.3, "n_ab": 935, "expected": 2211.95, "status": "untested", "reasoning": null, "sources": []}, {"a": "climatology", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 562.4, "n_ab": 4739, "expected": 10829.42, "status": "refuted", "reasoning": "Dedicated 2025 arXiv roadmap for climate-relevant robotics research (energy, built environment, land use, Earth sciences), plus an active \"ecorobotics\"/environmental intelligence field with an Annual Reviews article.", "sources": ["https://arxiv.org/abs/2507.11623", "https://www.annualreviews.org/content/journals/10.1146/annurev-control-030123-014212"]}, {"a": "climatology", "b": "immunology", "pool": "discipline", "detector": "bridges", "density": 503.4, "n_ab": 508, "expected": 1022.91, "status": "untested", "reasoning": null, "sources": []}, {"a": "climatology", "b": "neuroscience", "pool": "discipline", "detector": "bridges", "density": 474.8, "n_ab": 1008, "expected": 1919.24, "status": "untested", "reasoning": null, "sources": []}, {"a": "linguistics", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 469.7, "n_ab": 509, "expected": 959.83, "status": "untested", "reasoning": null, "sources": []}, {"a": "immunology", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 143.3, "n_ab": 179, "expected": 208.93, "status": "untested", "reasoning": null, "sources": []}, {"a": "neuroscience", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 2085, "expected": 392.01, "status": "untested", "reasoning": null, "sources": []}, {"a": "neuroscience", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 3299, "expected": 886.99, "status": "untested", "reasoning": null, "sources": []}, {"a": "neuroscience", "b": "pharmacology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 5090, "expected": 866.72, "status": "untested", "reasoning": null, "sources": []}, {"a": "materials science", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 7569, "expected": 1193.81, "status": "untested", "reasoning": null, "sources": []}, {"a": "materials science", "b": "robotics", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 5547, "expected": 2701.21, "status": "untested", "reasoning": null, "sources": []}, {"a": "materials science", "b": "pharmacology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 5570, "expected": 2639.46, "status": "untested", "reasoning": null, "sources": []}, {"a": "materials science", "b": "neuroscience", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 2638, "expected": 478.72, "status": "untested", "reasoning": null, "sources": []}, {"a": "linguistics", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 6268, "expected": 424.2, "status": "untested", "reasoning": null, "sources": []}, {"a": "linguistics", "b": "neuroscience", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 2026, "expected": 170.11, "status": "untested", "reasoning": null, "sources": []}, {"a": "linguistics", "b": "materials science", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 2462, "expected": 518.03, "status": "untested", "reasoning": null, "sources": []}, {"a": "immunology", "b": "pharmacology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 3633, "expected": 461.94, "status": "untested", "reasoning": null, "sources": []}, {"a": "immunology", "b": "neuroscience", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 1113, "expected": 83.78, "status": "untested", "reasoning": null, "sources": []}, {"a": "immunology", "b": "materials science", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 1434, "expected": 255.15, "status": "untested", "reasoning": null, "sources": []}, {"a": "climatology", "b": "sociology", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 6919, "expected": 4786.12, "status": "untested", "reasoning": null, "sources": []}, {"a": "climatology", "b": "materials science", "pool": "discipline", "detector": "bridges", "density": 0.0, "n_ab": 11254, "expected": 5844.76, "status": "untested", "reasoning": null, "sources": []}];
+
+const heroEl = document.getElementById('hero');
+const inputEl = document.getElementById('q');
+const resultsEl = document.getElementById('results');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+
+function snippetFor(q) {
+  const base = `${q.n_ab.toLocaleString()} real papers connect these fields (expected ~${Math.round(q.expected).toLocaleString()} if unrelated-by-size).`;
+  if (q.status === 'refuted') return `${base} Refuted — ${q.reasoning}`;
+  if (q.status === 'survived') return `${base} Survived adversarial search — no prior work found yet.`;
+  return `${base} Not yet checked against live search.`;
+}
+
+function render(list, query) {
+  resultsEl.innerHTML = '';
+  emptyEl.style.display = list.length ? 'none' : 'block';
+  countEl.textContent = query
+    ? `About ${list.length} result${list.length === 1 ? '' : 's'} for "${query}"`
+    : `${list.length} candidate questions, ranked by ignorance density`;
+
+  for (const q of list.slice(0, 40)) {
+    const div = document.createElement('div');
+    div.className = 'result';
+    const sources = (q.sources || []).map(s => `<a href="${s}">source</a>`).join(' · ');
+    div.innerHTML = `
+      <div class="breadcrumb">ignorance-engine <span class="sep">›</span> ${q.pool} <span class="sep">›</span> ${q.detector} <span class="sep">›</span> density ${q.density.toFixed(1)}/1000</div>
+      <h3><a href="#">${q.a} &times; ${q.b}</a> <span class="badge ${q.status}">${q.status}</span></h3>
+      <p class="snippet">${snippetFor(q)}</p>
+      ${sources ? `<div class="sources">${sources}</div>` : ''}
+    `;
+    resultsEl.appendChild(div);
+  }
+}
+
+function search(query) {
+  const term = query.trim().toLowerCase();
+  heroEl.classList.toggle('compact', term.length > 0);
+  if (!term) { render(QUESTIONS, ''); return; }
+  const matches = QUESTIONS.filter(q =>
+    q.a.toLowerCase().includes(term) || q.b.toLowerCase().includes(term) ||
+    q.status.includes(term) || q.pool.includes(term)
+  );
+  render(matches, query.trim());
+}
+
+inputEl.addEventListener('input', () => search(inputEl.value));
+document.getElementById('ask').addEventListener('click', () => search(inputEl.value));
+document.getElementById('surprise').addEventListener('click', () => {
+  const pick = QUESTIONS[Math.floor(Math.random() * Math.min(QUESTIONS.length, 15))];
+  inputEl.value = pick.a;
+  search(pick.a);
+  document.querySelector('.result')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+
+render(QUESTIONS, '');
+</script>
 </body>
 </html>

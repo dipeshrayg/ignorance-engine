@@ -1,0 +1,280 @@
+{
+  "field_terms": {
+    "aerospace_engineering": "aerospace engineering",
+    "nuclear_and_high_energy_physics": "nuclear and high energy physics",
+    "electrical_and_electronic_engineering": "electrical and electronic engineering",
+    "sociology_and_political_science": "sociology and political science",
+    "economics_and_econometrics": "economics and econometrics",
+    "political_science_and_international_relations": "political science and international relations",
+    "molecular_biology": "molecular biology",
+    "plant_science": "plant science",
+    "ecology_evolution_behavior_and_systematics": "ecology evolution behavior and systematics",
+    "surgery": "surgery",
+    "general_health_professions": "general health professions",
+    "public_health_environmental_and_occupational_health": "public health environmental and occupational health"
+  },
+  "field_counts": {
+    "aerospace_engineering": 33106,
+    "nuclear_and_high_energy_physics": 12369,
+    "electrical_and_electronic_engineering": 14169,
+    "sociology_and_political_science": 34827,
+    "economics_and_econometrics": 11060,
+    "political_science_and_international_relations": 13701,
+    "molecular_biology": 463178,
+    "plant_science": 123567,
+    "ecology_evolution_behavior_and_systematics": 626,
+    "surgery": 2974527,
+    "general_health_professions": 17688,
+    "public_health_environmental_and_occupational_health": 7878
+  },
+  "pair_counts": {
+    "aerospace_engineering|ecology_evolution_behavior_and_systematics": 0,
+    "aerospace_engineering|economics_and_econometrics": 1,
+    "aerospace_engineering|electrical_and_electronic_engineering": 371,
+    "aerospace_engineering|general_health_professions": 10,
+    "aerospace_engineering|molecular_biology": 68,
+    "aerospace_engineering|nuclear_and_high_energy_physics": 74,
+    "aerospace_engineering|plant_science": 134,
+    "aerospace_engineering|political_science_and_international_relations": 10,
+    "aerospace_engineering|public_health_environmental_and_occupational_health": 7,
+    "aerospace_engineering|sociology_and_political_science": 10,
+    "aerospace_engineering|surgery": 97,
+    "ecology_evolution_behavior_and_systematics|economics_and_econometrics": 1,
+    "ecology_evolution_behavior_and_systematics|electrical_and_electronic_engineering": 0,
+    "ecology_evolution_behavior_and_systematics|general_health_professions": 4,
+    "ecology_evolution_behavior_and_systematics|molecular_biology": 164,
+    "ecology_evolution_behavior_and_systematics|nuclear_and_high_energy_physics": 0,
+    "ecology_evolution_behavior_and_systematics|plant_science": 105,
+    "ecology_evolution_behavior_and_systematics|political_science_and_international_relations": 7,
+    "ecology_evolution_behavior_and_systematics|public_health_environmental_and_occupational_health": 3,
+    "ecology_evolution_behavior_and_systematics|sociology_and_political_science": 9,
+    "ecology_evolution_behavior_and_systematics|surgery": 3,
+    "economics_and_econometrics|electrical_and_electronic_engineering": 2,
+    "economics_and_econometrics|general_health_professions": 5,
+    "economics_and_econometrics|molecular_biology": 18,
+    "economics_and_econometrics|nuclear_and_high_energy_physics": 4,
+    "economics_and_econometrics|plant_science": 23,
+    "economics_and_econometrics|political_science_and_international_relations": 46,
+    "economics_and_econometrics|public_health_environmental_and_occupational_health": 5,
+    "economics_and_econometrics|sociology_and_political_science": 130,
+    "economics_and_econometrics|surgery": 17,
+    "electrical_and_electronic_engineering|general_health_professions": 14,
+    "electrical_and_electronic_engineering|molecular_biology": 102,
+    "electrical_and_electronic_engineering|nuclear_and_high_energy_physics": 44,
+    "electrical_and_electronic_engineering|plant_science": 123,
+    "electrical_and_electronic_engineering|political_science_and_international_relations": 5,
+    "electrical_and_electronic_engineering|public_health_environmental_and_occupational_health": 4,
+    "electrical_and_electronic_engineering|sociology_and_political_science": 11,
+    "electrical_and_electronic_engineering|surgery": 94,
+    "general_health_professions|molecular_biology": 163,
+    "general_health_professions|nuclear_and_high_energy_physics": 14,
+    "general_health_professions|plant_science": 146,
+    "general_health_professions|political_science_and_international_relations": 60,
+    "general_health_professions|public_health_environmental_and_occupational_health": 308,
+    "general_health_professions|sociology_and_political_science": 117,
+    "general_health_professions|surgery": 1832,
+    "molecular_biology|nuclear_and_high_energy_physics": 178,
+    "molecular_biology|plant_science": 4553,
+    "molecular_biology|political_science_and_international_relations": 52,
+    "molecular_biology|public_health_environmental_and_occupational_health": 112,
+    "molecular_biology|sociology_and_political_science": 96,
+    "molecular_biology|surgery": 7072,
+    "nuclear_and_high_energy_physics|plant_science": 191,
+    "nuclear_and_high_energy_physics|political_science_and_international_relations": 15,
+    "nuclear_and_high_energy_physics|public_health_environmental_and_occupational_health": 15,
+    "nuclear_and_high_energy_physics|sociology_and_political_science": 12,
+    "nuclear_and_high_energy_physics|surgery": 39,
+    "plant_science|political_science_and_international_relations": 248,
+    "plant_science|public_health_environmental_and_occupational_health": 131,
+    "plant_science|sociology_and_political_science": 323,
+    "plant_science|surgery": 626,
+    "political_science_and_international_relations|public_health_environmental_and_occupational_health": 25,
+    "political_science_and_international_relations|sociology_and_political_science": 2357,
+    "political_science_and_international_relations|surgery": 48,
+    "public_health_environmental_and_occupational_health|sociology_and_political_science": 41,
+    "public_health_environmental_and_occupational_health|surgery": 402,
+    "sociology_and_political_science|surgery": 85
+  },
+  "n_total": 176542708,
+  "top_candidates": [
+    {
+      "a": "ecology_evolution_behavior_and_systematics",
+      "b": "nuclear_and_high_energy_physics",
+      "detector": "bridges",
+      "score": 1000.0,
+      "evidence": {
+        "n_a": 626,
+        "n_b": 12369,
+        "n_ab": 0,
+        "expected_ab": 0.04
+      }
+    },
+    {
+      "a": "aerospace_engineering",
+      "b": "ecology_evolution_behavior_and_systematics",
+      "detector": "transitive",
+      "score": 1,
+      "evidence": {
+        "via": "economics_and_econometrics",
+        "n_ab": 1,
+        "n_bc": 1
+      }
+    },
+    {
+      "a": "ecology_evolution_behavior_and_systematics",
+      "b": "electrical_and_electronic_engineering",
+      "detector": "bridges",
+      "score": 1000.0,
+      "evidence": {
+        "n_a": 626,
+        "n_b": 14169,
+        "n_ab": 0,
+        "expected_ab": 0.05
+      }
+    },
+    {
+      "a": "aerospace_engineering",
+      "b": "ecology_evolution_behavior_and_systematics",
+      "detector": "bridges",
+      "score": 1000.0,
+      "evidence": {
+        "n_a": 33106,
+        "n_b": 626,
+        "n_ab": 0,
+        "expected_ab": 0.12
+      }
+    },
+    {
+      "a": "economics_and_econometrics",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 908.8,
+      "evidence": {
+        "n_a": 11060,
+        "n_b": 2974527,
+        "n_ab": 17,
+        "expected_ab": 186.35
+      }
+    },
+    {
+      "a": "sociology_and_political_science",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 855.1,
+      "evidence": {
+        "n_a": 34827,
+        "n_b": 2974527,
+        "n_ab": 85,
+        "expected_ab": 586.79
+      }
+    },
+    {
+      "a": "aerospace_engineering",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 826.1,
+      "evidence": {
+        "n_a": 33106,
+        "n_b": 2974527,
+        "n_ab": 97,
+        "expected_ab": 557.8
+      }
+    },
+    {
+      "a": "nuclear_and_high_energy_physics",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 812.9,
+      "evidence": {
+        "n_a": 12369,
+        "n_b": 2974527,
+        "n_ab": 39,
+        "expected_ab": 208.4
+      }
+    },
+    {
+      "a": "political_science_and_international_relations",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 792.1,
+      "evidence": {
+        "n_a": 13701,
+        "n_b": 2974527,
+        "n_ab": 48,
+        "expected_ab": 230.84
+      }
+    },
+    {
+      "a": "ecology_evolution_behavior_and_systematics",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 715.6,
+      "evidence": {
+        "n_a": 626,
+        "n_b": 2974527,
+        "n_ab": 3,
+        "expected_ab": 10.55
+      }
+    },
+    {
+      "a": "plant_science",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 699.3,
+      "evidence": {
+        "n_a": 123567,
+        "n_b": 2974527,
+        "n_ab": 626,
+        "expected_ab": 2081.95
+      }
+    },
+    {
+      "a": "electrical_and_electronic_engineering",
+      "b": "surgery",
+      "detector": "bridges",
+      "score": 606.3,
+      "evidence": {
+        "n_a": 14169,
+        "n_b": 2974527,
+        "n_ab": 94,
+        "expected_ab": 238.73
+      }
+    },
+    {
+      "a": "aerospace_engineering",
+      "b": "economics_and_econometrics",
+      "detector": "bridges",
+      "score": 517.8,
+      "evidence": {
+        "n_a": 33106,
+        "n_b": 11060,
+        "n_ab": 1,
+        "expected_ab": 2.07
+      }
+    },
+    {
+      "a": "economics_and_econometrics",
+      "b": "molecular_biology",
+      "detector": "bridges",
+      "score": 379.7,
+      "evidence": {
+        "n_a": 11060,
+        "n_b": 463178,
+        "n_ab": 18,
+        "expected_ab": 29.02
+      }
+    },
+    {
+      "a": "aerospace_engineering",
+      "b": "molecular_biology",
+      "detector": "bridges",
+      "score": 217.1,
+      "evidence": {
+        "n_a": 33106,
+        "n_b": 463178,
+        "n_ab": 68,
+        "expected_ab": 86.86
+      }
+    }
+  ]
+}
